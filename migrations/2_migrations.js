@@ -1,4 +1,4 @@
-var Trealos = artifacts.require("Francistan");
+var Francistan = artifacts.require("Francistan");
 
 module.exports = function(deployer) {
   // deployment steps
