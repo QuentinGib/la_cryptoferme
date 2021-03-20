@@ -31,7 +31,7 @@ contract Francistan is ERC721 {
         uint256 aggressivity;
         bool alive;
     }
-    
+
     constructor() ERC721("Francistan", "Coq") public {
         admin = msg.sender;
     }
@@ -50,10 +50,10 @@ contract Francistan is ERC721 {
         breeders[breeder]=true;
     }
     
-    function declareAnimal( string memory feathers, uint256 weight,uint256 size,uint256 aggressivity) isBreeder public returns(uint256){
+    function declareAnimal( address owner,string memory feathers, uint256 weight,uint256 size,uint256 aggressivity,string memory name) isBreeder public returns(uint256){
         _tokenIds++;
         uint256 newItemId = _tokenIds;
-        _mint(msg.sender, newItemId);
+        _mint(owner, newItemId);
         animals[newItemId]=Animal(feathers,weight,size,aggressivity,true);
         _setTokenURI(newItemId, "");
         return newItemId;
@@ -98,9 +98,8 @@ contract Francistan is ERC721 {
 
     function claimAuction(uint256 tokenId) public isBreeder{
         require(msg.sender==auction[tokenId].bidder);
-        require(block.timestamp>auction[tokenId].time);
+        require(!auction[tokenId].isActive);
         transferFrom(ownerOf(tokenId),auction[tokenId].bidder,tokenId);
-        auction[tokenId].isActive=false;
     }
 
     function proposeFight(uint256 tokenId) public payable isBreeder isAlive(tokenId){
@@ -112,14 +111,16 @@ contract Francistan is ERC721 {
         require(msg.value==fight[otherTokenId].stake);
         require(otherTokenId != yourTokenId);
         fight[otherTokenId].tokenId=yourTokenId;
-        uint256 result = animalFighting(animals[otherTokenId].aggressivity+animals[yourTokenId].aggressivity);
+        uint256 result = animalFighting(animals[otherTokenId].aggressivity+animals[yourTokenId].aggressivity+1);
         if (result<= animals[otherTokenId].aggressivity) {
             payable(ownerOf(otherTokenId)).transfer(fight[otherTokenId].stake*2);
-            deadAnimal(otherTokenId);
+            animals[yourTokenId].alive =false;
+            _burn(yourTokenId);
         }
         else {
             payable(ownerOf(yourTokenId)).transfer(fight[otherTokenId].stake*2);
-            deadAnimal(yourTokenId);
+            animals[otherTokenId].alive =false;
+            _burn(otherTokenId);
         }
     }
 
