@@ -24,6 +24,7 @@ Avec cette fonction un breeder peut accepter un combat et envoyer l'animal de so
 ### animalFighting
 C'est une fonction internal qui détermine le vainqueur d'un combat. Les agressivités des adversaires sont additionnées et un nombre aléatoire est généré dans cet intervalle. Par exemple, supposons que le coq 1 a une agressivité de 3, et le coq 2 de 7. Si le nombre aléatoire est compris entre 1 et 3, le coq 1 gagne. Si il est entre 4 et 10, le coq 2 gagne.
 
+## Auction
 ### createAuction
 Cette fonction permet à un breeder de mettre aux enchères un de ses animaux et fixe le prix initial. Une enchère sera créée en utilisant le struct `Auction` qui 4 propriétés (le prix, la date de fin de l'enchère, si l'enchère est active et l'adresse du dernier enchérisseur).
 
