@@ -16,7 +16,7 @@ Cette fonction permet de tuer un animal, et donc de détruire son token avec la 
 
 ## Fight
 ### proposeFight
-Cette fonction permet à un breeder de proposer un animal pour un combat. Il doit quel animal peut combattre parmi ceux qu'il possède, et envoyer un certain nombre d'ether correspondant à sa mise. Le `struct Fight` correspond à l'id de l'animal, la mise en jeu sur son combat et un boolean pour indiquer s'il est disponible pour combattre ou non.
+Cette fonction permet à un breeder de proposer un animal pour un combat. Il doit renseigner l'animal pouvant combattre parmi ceux qu'il possède, et envoyer un certain nombre d'ether correspondant à sa mise. Le `struct Fight` correspond à l'id de l'animal, la mise en jeu sur son combat et un boolean pour indiquer s'il est disponible pour combattre ou non.
 
 ### agreeToFight
 Avec cette fonction un breeder peut accepter un combat et envoyer l'animal de son choix. Il doit pour cela mettre la même mise que son adversaire. Le combat a ensuite lieu, et le vainqueur remporte la mise des deux participants. Le perdant perd également son animal (le paramètre alive du struct de l'animal passe à false : `animals[otherTokenId].alive =false`), dont le token est détruit avec la fonction `_burn`.
